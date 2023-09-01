@@ -40,7 +40,7 @@ app.post('/sendMessage', async (req, res) => {
     res.send(req.body)
 })
 
-let port = "https://zingy-palmier-f3883d.netlify.app" || 3010
+let port = process.env.PORT || 3010
 
 app.listen(port, () => {
     console.log(`Example app listening on port 3010`)
