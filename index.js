@@ -20,6 +20,10 @@ let transporter = nodemailer.createTransport({
     },
 });
 
+app.get('/', (req, res) => {
+    res.send("Hello Samurai")
+})
+
 app.post('/sendMessage', async (req, res) => {
 
     const {name, email, subject, message } = req.body
@@ -36,7 +40,7 @@ app.post('/sendMessage', async (req, res) => {
     res.send(req.body)
 })
 
-let port = process.env.PORT || 3010
+let port = "https://zingy-palmier-f3883d.netlify.app" || 3010
 
 app.listen(port, () => {
     console.log(`Example app listening on port 3010`)
