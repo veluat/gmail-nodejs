@@ -1,6 +1,8 @@
 const nodemailer = require("nodemailer");
 const express = require("express")
+const serverless = require("serverless-http")
 const app = express()
+const router = express.Router()
 const cors = require('cors')
 const bodyParser = require('body-parser')
 require('dotenv').config();
@@ -8,6 +10,7 @@ require('dotenv').config();
 app.use(cors({origin: '*'}))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+
 
 let smtp_login = process.env.SMTP_LOGIN || "---"
 let smtp_password = process.env.SMTP_PASSWORD || "---"
@@ -20,13 +23,13 @@ let transporter = nodemailer.createTransport({
     },
 });
 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
     res.send("Hello Samurai")
 })
 
-app.post('/sendMessage', async (req, res) => {
+router.get('/sendMessage', async (req, res) => {
 
-    const {name, email, subject, message } = req.body
+    const {name, email, subject, message} = req.body
 
     let info = await transporter.sendMail({
         from: "portfolio-form", // sender address
@@ -39,9 +42,8 @@ app.post('/sendMessage', async (req, res) => {
     });
     res.send(req.body)
 })
+app.use('/.netlify/functions/api', router)
+module.exports = app
+module.exports.handler = serverless(app)
 
-let port = process.env.PORT || 3010
 
-app.listen(port, () => {
-    console.log(`Example app listening on port 3010`)
-})
