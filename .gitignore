@@ -22,7 +22,7 @@ node_modules
 functions
 # Testing
 coverage
-
+.netlify
 # Production
 build
 
